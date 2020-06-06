@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map ="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/map"
+        android:name="com.gogle.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        map:cameraTargetLat="37.541"
+        map:cameraTargetLng="126.986"
+        map:cameraZoom="10"/>
+
+
+
+    public boolean onCreateOptionsMenu(Menu menu){
+    super.onCreateOptionsMenu(menu);
+    menu.add(0,1,0, "위성 지도 ");
+    menu.add(0,2,0, "일반 지도 ");
+    menu.add(0,30, "월드컵경기장 바로가기");
+    return true;
+    }
+
+    @Override
+
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()){
+    case 1:
+        gMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+    return true;
+    case 2:
+    gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+
+    return true;
+    case 3:
+    gMap.moveCamer(CameraUpdateFactory.newLatLngZoom(new LatLng(37,568256, 126.897240), 15));
+    return true;
+    }
+    return false;
+    }
+
+
+
+
+    GroundOverlayOptions videoMark;
+
+    public void onMapReady(GoogleMap map){
+    gMap = map;
+    gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.568256,126.897240), 15));
+    gMap.getUiSettings().setZoomControlsEnabled(true);
+    gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
+    @Override
+    public voidonMapClick(LatLng point){
+    videoMark = new GroundOverlayOptions().image
+    (BitmapDescriptorFactory.fromResource(R.drawable.presence_video_busy)).position(point, 100f, 100f);
+    gMap.addGroundOverlay(videoMark);
+    }
+    });
+    }
+
+
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
